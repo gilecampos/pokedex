@@ -1,0 +1,258 @@
+@import url("tailwindcss/base");
+
+@import url("tailwindcss/components");
+
+@import url("tailwindcss/utilities");
+
+
+/* MENU MOBILE */
+
+.header {
+  position: relative;
+  border-bottom: 1px solid rgb(42, 49, 114);
+}
+
+.menu__btn-mobile {
+  position: relative;
+  width: auto;
+  height: auto;
+
+  padding: 3px;
+  width: 25px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.hamburger {
+  width: 25px;
+  height: 3px;
+  background: white;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  /* left: 50%; */
+  /* margin-left: -25px; */
+  transition: transform 200ms;
+}
+
+
+.hamburger-1 {
+  transform: translate3d(0, -8px, 0);
+}
+.hamburger-2 {
+  transform: translate3d(0, 0, 0);
+}
+.hamburger-3 {
+  transform: translate3d(0, 8px, 0);
+}
+
+.menu__btn-mobile.active .hamburger-1 {
+  transform: translate3d(0, 0, 0) rotate(45deg);
+}
+.menu__btn-mobile.active .hamburger-2 {
+  transform: translate3d(0, 0, 0) scale(0.1, 1);
+}
+.menu__btn-mobile.active .hamburger-3 {
+  transform: translate3d(0, 0, 0) rotate(-45deg);
+}
+
+.menu__items {
+  display: none;
+}
+
+.menu__btn-mobile.active ~ .menu__items {
+  display: block;
+  width: 100vw;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgb(129 140 248);
+  border-top: 2px solid rgb(115, 122, 192);
+  text-align: center;
+
+  z-index: 10;
+}
+
+.menu__link {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  transition: all .5s ease;
+}
+
+.menu__link:hover,
+.menu__link:active {
+  background-color: rgb(175, 183, 255);
+}
+
+/* SECTION FILTER */
+.filter__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.filter__search i {
+  color: rgb(49 46 129);
+  position: absolute;
+  left: 15px;
+}
+
+/* CARD POKEMON */
+
+.card__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 300px;
+  position: relative;
+}
+
+.card__image img {
+  max-height: 300px;
+  max-width: 200px;
+  z-index: 10;
+}
+
+.effect__image {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.card__image .effect__image img {
+  opacity: 0.2;
+  width: 80%;
+  max-height: unset;
+  max-width: unset;
+}
+
+.card__details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  background-color: #E0E7FF;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.card__info {
+  display: flex;
+  flex-direction: column;
+  color: #312E81;
+}
+
+.card__info .card__number {
+  font-weight: 500;
+  font-size: 16px;
+  padding: 8px;
+}
+
+.card__info .card__name {
+  font-size: 20px;
+  font-weight: bolder;
+  text-transform: uppercase;
+  padding: 4px;
+}
+
+.card__types {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card__types img {
+  max-width: 16px;
+}
+
+.card__types .type {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px;
+  border-radius: 24px;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* COLOR TYPES */
+.bug {
+  background-color: #A7B723;
+}
+
+.dark {
+  background-color: #75574C;
+}
+
+.dragon {
+  background-color: #7037FF; 
+}
+
+.electric {
+  background-color: #F9CF30;
+}
+
+.fairy {
+  background-color: #E69EAC;
+}
+
+.fighting {
+  background-color: #C12239;
+}
+
+.fire {
+  background-color: #F57D31;
+}
+
+.flying {
+  background-color: #A891EC;
+}
+
+.ghost {
+  background-color: #70559B;
+}
+
+.normal {
+  background-color: #AAA67F;
+}
+
+.grass {
+  background-color: #74CB48;
+}
+
+.ground {
+  background-color: #DEC16B;
+}
+
+.ice {
+  background-color: #9AD6DF;
+}
+
+.poison {
+  background-color: #A43E9E;
+}
+
+.psychic {
+  background-color: #FB5584;
+}
+
+.rock {
+  background-color: #B69E31;
+}
+
+.steel {
+  background-color: #B7B9D0;
+}
+
+.water {
+  background-color: #6493EB;
+}
