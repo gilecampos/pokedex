@@ -90,7 +90,7 @@ const convertPokemonToCard = (pokemon) => {
       </div>
       <div class="card__details">
         <div class="card__info">
-          <span class="card__number">n.º ${leftFillNum(pokemon.number, 4)}</span>
+          <span class="card__number">n.º ${leftFillNum(pokemon.number, 3)}</span>
           <span class="card__name"> ${pokemon.name}</span>
         </div>
         <div class="card__types">
@@ -107,10 +107,12 @@ const convertPokemonToCard = (pokemon) => {
 }
 
 function loadPokemonItens(offset, limit, reloadList = false) {
+
   if(reloadList) {
     offset = 0;
     pokemonList.innerHTML = '';
   }
+
 
   getPokemons(offset, limit).then((pokemons = []) => {
     const currentPokemonNames = Array.from(pokemonList.querySelectorAll('.card__name')).map(name => name.textContent.trim());
@@ -124,38 +126,41 @@ function loadPokemonItens(offset, limit, reloadList = false) {
   });
 }
 
-
 loadPokemonItens(offset, limit, false)
 
-function userReachedBottom() {
-  const scrollPosition = window.scrollY + window.innerHeight;
-  const documentHeight = document.documentElement.offsetHeight;
-  return scrollPosition >= documentHeight;
-}
-
-window.addEventListener("scroll", () => {
-  if (userReachedBottom()) {
-    offset += limit;
-    loadPokemonItens(offset, limit, false);
+window.addEventListener("load", () => {
+  function userNearBottom(threshold = 10) {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    return scrollPosition >= documentHeight - threshold;
   }
+  
+  document.addEventListener("scroll", () => {
+    if (userNearBottom()) {
+      offset += limit;
+      loadPokemonItens(offset, limit);
+    }
+  })
+  
+  inputSearchByPokemon.addEventListener("keyup", async (input) => {
+    const inputValue = input.currentTarget.value;
+    const id = !isNaN(inputValue);
+    const valueString = inputValue.toLowerCase();
+  
+    let result;
+    if(inputValue.trim() === '') {
+      return loadPokemonItens(offset, limit, true)
+    } else if (id) {
+      result = await filterById(inputValue);
+    } else {
+      result = await filterByName(valueString);
+    } 
+  
+    const details = await Promise.all(result.map(getDetails));
+    const newHtml = details.map(convertPokemonToCard).join('');
+    pokemonList.innerHTML = newHtml; 
+  });
 })
 
-inputSearchByPokemon.addEventListener("keyup", async (input) => {
-  const inputValue = input.currentTarget.value;
-  const id = !isNaN(inputValue);
-  const valueString = inputValue.toLowerCase();
 
-  let result;
-  if(inputValue.trim() === '') {
-    return loadPokemonItens(offset, limit, true)
-  } else if (id) {
-    result = await filterById(inputValue);
-  } else {
-    result = await filterByName(valueString);
-  } 
-
-  const details = await Promise.all(result.map(getDetails));
-  const newHtml = details.map(convertPokemonToCard).join('');
-  pokemonList.innerHTML = newHtml; 
-});
 

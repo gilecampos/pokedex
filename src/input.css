@@ -4,6 +4,11 @@
 
 @import url("tailwindcss/utilities");
 
+/* HEADER */
+.header__logo {
+  max-width: 160px;
+}
+
 
 /* MENU MOBILE */
 
@@ -74,6 +79,8 @@
   z-index: 10;
 }
 
+
+
 .menu__link {
   display: inline-block;
   width: 100%;
@@ -84,6 +91,12 @@
 .menu__link:hover,
 .menu__link:active {
   background-color: rgb(175, 183, 255);
+}
+
+.menu__link.active {
+  background-color: #fff;
+  font-weight: bold;
+  color: #312E81;
 }
 
 /* SECTION FILTER */
@@ -182,6 +195,8 @@
   border-radius: 24px;
   color: #fff;
   font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
 }
 
 /* COLOR TYPES */
@@ -255,4 +270,23 @@
 
 .water {
   background-color: #6493EB;
+}
+
+
+@media (min-width: 768px) {
+  .menu__items {
+    display: flex;
+    gap: 24px;
+  }
+
+  .menu__link {
+    border: 0;
+    padding: 8px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+  }
+
+  .menu__link.active {
+    border-color: #312E81;
+  }
 }
