@@ -3,7 +3,7 @@ var v=Object.defineProperty;var k=(e,t,s)=>t in e?v(e,t,{enumerable:!0,configura
       <div class="card__image ${e.type}">
         <img src="${e.image}" alt="Poke">
         <div class="effect__image">
-          <img src="icons-type/${e.type}.svg" alt="${e.type}">
+          <img src="/pokedex/dist/icons-type/${e.type}.svg" alt="${e.type}">
         </div>
       </div>
       <div class="card__details">
