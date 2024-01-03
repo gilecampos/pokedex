@@ -1,6 +1,12 @@
 import "./input.css"
 
 const inputSearchByPokemon = document.querySelector("[ data-js='search-pokemon']")
+const inputSearchByType = document.querySelectorAll("input[type='checkbox']");
+const clearFilterButton = document.querySelector("#clearFilter");
+const filterTypeButton = document.querySelector("#filterTypeButton");
+
+let arrTypes = [];
+
 const pokemonList = document.querySelector(".pokedex-list");
 const btnMenuMobile = document.querySelector(".menu__btn-mobile");
 btnMenuMobile.addEventListener("click", (e) => {
@@ -29,7 +35,7 @@ const convertDetailsToModelPokemon = (detail) => {
 
   pokemon.types = types;
   pokemon.type = type;
-  
+
   return pokemon;
 }
 
@@ -51,11 +57,20 @@ const getPokemons = async (offset, limit) => {
   return detailsRequest;
 }
 
+const getAllPokemons = async () => {
+  const response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1080`);
+  const data = await response.json();
+  const pokemons = await data.results;
+  return pokemons;
+}
+
 const filterByName = async (name) => {
   const allPokemons = await getAllPokemons();
   const result = allPokemons.filter(pokemon => {
     return pokemon.name.toLowerCase().startsWith(name)
   })
+
   return result;
 }
 
@@ -67,13 +82,18 @@ const filterById = async (id) => {
   return result;
 }
 
-const getAllPokemons = async () => {
-  const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1080`);
-  const data = await response.json();
-  const pokemons = await data.results;
-  return pokemons;
+
+const filterByType = async (type) => {
+  const pokemons = await getAllPokemons();
+  const details = await pokemons.map(getDetails);
+  const detailsRequest = await Promise.all(details);
+
+  const filteredTypes = detailsRequest.filter(pokemon => type.some(type => type == pokemon.types));
+
+
+  return filteredTypes;
 }
+
 
 function leftFillNum(num, targetLength) {
   return num.toString().padStart(targetLength, "0");
@@ -81,7 +101,7 @@ function leftFillNum(num, targetLength) {
 
 const convertPokemonToCard = (pokemon) => {
   return `
-    <li class="card">
+    <li class="card cursor-pointer">
       <div class="card__image ${pokemon.type}">
         <img src="${pokemon.image}" alt="Poke">
         <div class="effect__image">
@@ -107,59 +127,120 @@ const convertPokemonToCard = (pokemon) => {
 }
 
 function loadPokemonItens(offset, limit, reloadList = false) {
-
-  if(reloadList) {
+  if (reloadList) {
     offset = 0;
     pokemonList.innerHTML = '';
   }
 
-
   getPokemons(offset, limit).then((pokemons = []) => {
     const currentPokemonNames = Array.from(pokemonList.querySelectorAll('.card__name')).map(name => name.textContent.trim());
-    
+
+
     const newHtml = pokemons
       .filter(pokemon => !currentPokemonNames.includes(pokemon.name))
       .map(convertPokemonToCard)
       .join('');
-      
+
     pokemonList.innerHTML += newHtml;
   });
 }
 
 loadPokemonItens(offset, limit, false)
 
-window.addEventListener("load", () => {
-  function userNearBottom(threshold = 10) {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    return scrollPosition >= documentHeight - threshold;
-  }
+// Toggle Modal
+const openModalButton = document.querySelector("[data-js='modal-types']");
+const closeModalButton = document.querySelector("#close-modal");
+const modal = document.querySelector("#modal");
+const fade = document.querySelector("#fade");
+
+const toggleModal = () => {
+  modal.classList.toggle("hide");
+  fade.classList.toggle("hide");
+};
+
+[openModalButton, closeModalButton, fade, filterTypeButton].forEach((el) => {
+  el.addEventListener("click", () => toggleModal());
+});
+
+
+function userNearBottom(threshold = 10) {
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  return scrollPosition >= documentHeight - threshold;
+}
+
+function addInArray(input) {
+  if(input.checked == true) {
+    arrTypes.push(input.dataset.js)
+    console.log(arrTypes)
+  } 
   
+  if(input.checked == false){
+    let indice = arrTypes.indexOf(input.dataset.js);
+    arrTypes.splice(indice, 1);
+    console.log(arrTypes);
+  }
+}
+
+
+window.addEventListener("DOMContentLoaded", () => {
+
   document.addEventListener("scroll", () => {
     if (userNearBottom()) {
       offset += limit;
-      loadPokemonItens(offset, limit);
+      loadPokemonItens(offset, limit, false);
     }
   })
-  
-  inputSearchByPokemon.addEventListener("keyup", async (input) => {
+
+  inputSearchByPokemon.addEventListener("input", async (input) => {
     const inputValue = input.currentTarget.value;
     const id = !isNaN(inputValue);
     const valueString = inputValue.toLowerCase();
-  
+
     let result;
-    if(inputValue.trim() === '') {
+    if (inputValue.trim() === '') {
       return loadPokemonItens(offset, limit, true)
     } else if (id) {
       result = await filterById(inputValue);
     } else {
       result = await filterByName(valueString);
-    } 
-  
+    }
+
     const details = await Promise.all(result.map(getDetails));
     const newHtml = details.map(convertPokemonToCard).join('');
-    pokemonList.innerHTML = newHtml; 
+    pokemonList.innerHTML = newHtml;
   });
+
+  inputSearchByType.forEach(input => {
+    input.addEventListener("click", (e) => {
+      const input = e.target;
+      if(!arrTypes.includes(input.value)) {
+        addInArray(input)
+      }
+    })
+  })
+
+  clearFilterButton.addEventListener("click", () => {
+    inputSearchByType.forEach(input => {
+      input.checked = false;  
+      arrTypes = [];
+    })
+  })
+
+  filterTypeButton.addEventListener("click", async () => {
+    if(arrTypes.length > 0) {
+      const results = await filterByType(arrTypes);
+      const newHtml = results.map(convertPokemonToCard).join('');
+      pokemonList.innerHTML = newHtml;
+    } else {
+      loadPokemonItens(offset, limit, true);
+    }
+  })
+
+
+
+
+
 })
 
 

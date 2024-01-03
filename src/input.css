@@ -113,6 +113,7 @@
 
 /* CARD POKEMON */
 
+
 .card__image {
   display: flex;
   align-items: center;
@@ -270,6 +271,76 @@
 
 .water {
   background-color: #6493EB;
+}
+
+/* MODAL */
+#fade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+#modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-width: 90%;
+  background-color: rgb(224 231 255);
+  color: rgb(49 46 129);
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  z-index: 10;
+}
+
+#fade,
+#modal {
+  transition: 0.5s;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(49 46 129);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.modal-header button i {
+  font-size: 32px;
+  color: red;
+}
+
+.modal-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-body p {
+  margin-bottom: 1rem;
+}
+
+#modal.hide,
+#fade.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#modal.hide {
+  top: 0;
 }
 
 
