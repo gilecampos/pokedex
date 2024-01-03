@@ -105,7 +105,7 @@ const convertPokemonToCard = (pokemon) => {
       <div class="card__image ${pokemon.type}">
         <img src="${pokemon.image}" alt="Poke">
         <div class="effect__image">
-          <img src="icons-type/${pokemon.type}.svg" alt="${pokemon.type}">
+          <img src="/pokedex/dist/icons-type/${pokemon.type}.svg" alt="${pokemon.type}">
         </div>
       </div>
       <div class="card__details">
