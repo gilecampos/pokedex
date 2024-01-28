@@ -68,7 +68,7 @@
         </div>
 
         <div class="filter__advanced">
-          <i class="bi bi-filter-square-fill text-4xl text-indigo-900"></i>
+          <i class="bi bi-filter-square-fill text-4xl text-indigo-900 cursor-pointer" data-js="modal-types"></i>
         </div>
       </div>
     </section>
@@ -78,6 +78,93 @@
       </ul>
     </section>
   </main>
+
+  <div id="fade" class="hide"></div>
+  <div id="modal" class="hide">
+    <div class="modal-header">
+      <h2>Escolha o tipo que deseja filtrar</h2>
+      <button id="close-modal"><i class="bi bi-x-circle"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="flex flex-col gap-2">
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="normal"> Normal
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="fire"> Fire
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="water"> Water
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="electric"> Electric
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="grass"> Grass
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="ice"> Ice
+        </label>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="fighting"> Fighting
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="poison"> Poison
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="ground"> Ground  
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="flying"> Flying
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="psychic"> Psychic
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="bug"> Bug
+        </label>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="rock"> Rock
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="ghost"> Ghost
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="dragon"> Dragon
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="dark"> Dark
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="steel"> Steel
+        </label>
+        <label>
+          <input type="checkbox" class="accent-indigo-900" data-js="fairy"> Fairy
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-actions text-center">
+      <button 
+        type="button"
+        class="bg-indigo-900 text-white border-0 px-8 py-2 rounded mt-6"
+        id="filterTypeButton"
+      >
+        Filtrar
+      </button>
+      <button 
+        type="button"
+        class="bg-indigo-900 text-white border-0 px-8 py-2 rounded mt-6"
+        id="clearFilter"
+      >
+       Limpar
+      </button>
+    </div>
+  </div>
 
 
   <script type="module" src="./src/main.js"></script>
