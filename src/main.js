@@ -1,15 +1,20 @@
 import "./input.css"
 
+// Variaveis
 const inputSearchByPokemon = document.querySelector("[ data-js='search-pokemon']")
 const pokemonList = document.querySelector(".pokedex-list");
 const btnMenuMobile = document.querySelector(".menu__btn-mobile");
+
+// Toggle Menu Mobile
 btnMenuMobile.addEventListener("click", (e) => {
   e.currentTarget.classList.toggle("active")
 })
 
+// Config Limit and Quantity Pokemons requisitions API
 const limit = 20;
 let offset = 0;
 
+// My Model to Pokemon
 class Pokemon {
   number;
   name;
@@ -85,7 +90,7 @@ const convertPokemonToCard = (pokemon) => {
       <div class="card__image ${pokemon.type}">
         <img src="${pokemon.image}" alt="Poke">
         <div class="effect__image">
-          <img src="icons-type/${pokemon.type}.svg" alt="${pokemon.type}">
+          <img src="img/${pokemon.type}.svg" alt="${pokemon.type}">
         </div>
       </div>
       <div class="card__details">
@@ -96,7 +101,7 @@ const convertPokemonToCard = (pokemon) => {
         <div class="card__types">
         ${pokemon.types.map((type) => `
         <span class="type ${type}">
-          <img src="icons-type/${type}.svg" alt="">
+          <img src="img/${type}.svg" alt="">
           ${type}
         </span>`).join("")}
           
@@ -106,13 +111,12 @@ const convertPokemonToCard = (pokemon) => {
   `
 }
 
-function loadPokemonItens(offset, limit, reloadList = false) {
+async function loadPokemonItens(offset, limit, reloadList = false) {
 
   if(reloadList) {
     offset = 0;
     pokemonList.innerHTML = '';
   }
-
 
   getPokemons(offset, limit).then((pokemons = []) => {
     const currentPokemonNames = Array.from(pokemonList.querySelectorAll('.card__name')).map(name => name.textContent.trim());
@@ -126,34 +130,35 @@ function loadPokemonItens(offset, limit, reloadList = false) {
   });
 }
 
-loadPokemonItens(offset, limit, false)
+function userNearBottom(threshold = 10) {
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  return scrollPosition >= documentHeight - threshold;
+}
+
 
 window.addEventListener("load", () => {
-  function userNearBottom(threshold = 10) {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    return scrollPosition >= documentHeight - threshold;
-  }
-  
+
   document.addEventListener("scroll", () => {
     if (userNearBottom()) {
       offset += limit;
-      loadPokemonItens(offset, limit);
+      loadPokemonItens(offset, limit, false);
     }
   })
   
   inputSearchByPokemon.addEventListener("keyup", async (input) => {
     const inputValue = input.currentTarget.value;
-    const id = !isNaN(inputValue);
-    const valueString = inputValue.toLowerCase();
+    const idPokemon = !isNaN(inputValue);
+    const namePokemon = inputValue.toLowerCase();
   
     let result;
-    if(inputValue.trim() === '') {
+
+    if(inputValue.trim() == "") {
       return loadPokemonItens(offset, limit, true)
-    } else if (id) {
+    } else if (idPokemon) {
       result = await filterById(inputValue);
     } else {
-      result = await filterByName(valueString);
+      result = await filterByName(namePokemon);
     } 
   
     const details = await Promise.all(result.map(getDetails));
@@ -162,5 +167,6 @@ window.addEventListener("load", () => {
   });
 })
 
+loadPokemonItens(offset, limit, true)
 
 
