@@ -58,77 +58,113 @@
       console.log('algo deu errado', error);
     }
   }
-  
-  // <li class="card cursor-pointer">
-  //   <div class="card__image ${pokemon.type}">
-  //     <img src="${pokemon.image}" alt="${pokemon.name}">
-  //   </div>
-  //   <div class="card__details">
-  //     <div class="card__info">
-  //       <span class="card__number">n.º ${leftFillNum(pokemon.number, 3)}</span>
-  //       <span class="card__name"> ${pokemon.name}</span>
-  //     </div>
-  //     <div class="card__types">
-  //     ${pokemon.types.map((type) => `
-  //     <span class="type ${type}">
-  //       <img src="icons-type/${type}.svg" alt="">
-  //       ${type}
-  //     </span>`).join("")}
-          
-  //     </div>
-  //   </div>
-  // </li>
 
-  const renderPokemons = pokemons => {
-    const ul = document.querySelector("[ data-js='pokemon-list']");
-
-    pokemons.forEach(({number, name, image, types, type}) => {
-      const li = document.createElement('li');
-      const containerImg = document.createElement('div');
-      const img = document.createElement('img');
-      const details = document.createElement('div');
-      const detailsInfo = document.createElement('div');
-      const id = document.createElement('span');
-      const namePokemon = document.createElement('span');
-      const typesPokemon = document.createElement('div');
-
-      li.classList.add('card', 'cursor-pointer');
-      
-      containerImg.classList.add('card__image', type);
-
-      img.src = image;
-      img.setAttribute('alt', name)
-
-      details.classList.add('card__details');
-      detailsInfo.classList.add('card__info');
-
-      id.classList.add('card__number');
-      id.innerText = `n.º ${leftFillNum(number, 3)}`;
-
-      namePokemon.classList.add('card__name');
-      namePokemon.innerText = name;
-
-      typesPokemon.classList.add('card__types');
-
-
-    })
-
-
-
-
-
-
-
-    // const allCardsName = pokemonList.querySelectorAll(".card__name");
-    // const currentPokemonNames = Array.from(allCardsName).map(name => name.textContent.trim());
-
-    // const newHtml = pokemons
-    //   .filter(pokemon => !currentPokemonNames.includes(pokemon.name))
-    //   .map(createCardPokemon)
-    //   .join('');
-
-    // pokemonList.innerHTML += newHtml;
+  const createHTMLElement = (tag, classNames = []) => {
+    const element = document.createElement(tag);
+    element.classList.add(...classNames);
+    return element;
   };
+  
+  const renderPokemons = pokemons => {
+    const ul = document.querySelector("[data-js='pokemon-list']");
+    const fragment = new DocumentFragment();
+  
+    pokemons.forEach(({ number, name, image, types, type }) => {
+      const li = createHTMLElement('li', ['card', 'cursor-pointer']);
+      const containerImg = createHTMLElement('div', ['card__image', type]);
+      const img = createHTMLElement('img');
+      const details = createHTMLElement('div', ['card__details']);
+      const detailsInfo = createHTMLElement('div', ['card__info']);
+      const id = createHTMLElement('span', ['card__number']);
+      const namePokemon = createHTMLElement('span', ['card__name']);
+      const typesPokemon = createHTMLElement('div', ['card__types']);
+  
+      if (types.length > 1) {
+        types.forEach(type => {
+          const typeSpan = createHTMLElement('span', ['type', type]);
+          typeSpan.textContent = type;
+          typesPokemon.appendChild(typeSpan);
+        });
+      } else {
+        const type = createHTMLElement('span', ['type', types[0]]);
+        type.textContent = types[0];
+        typesPokemon.appendChild(type);
+      }
+  
+      img.src = image;
+      img.setAttribute('alt', name);
+      id.textContent = `n.º ${leftFillNum(number, 3)}`;
+      namePokemon.textContent = name;
+  
+      detailsInfo.append(id, namePokemon);
+      containerImg.appendChild(img);
+      details.append(detailsInfo, typesPokemon);
+      li.append(containerImg, details);
+  
+      fragment.appendChild(li);
+    });
+  
+    ul.appendChild(fragment);
+  };
+  
+  
+
+  // const renderPokemons = pokemons => {
+  //   const ul = document.querySelector("[ data-js='pokemon-list']");
+  //   let fragment = new DocumentFragment();
+
+  //   pokemons.forEach(({number, name, image, types, type}) => {
+  //     const li = document.createElement('li');
+  //     const containerImg = document.createElement('div');
+  //     const img = document.createElement('img');
+  //     const details = document.createElement('div');
+  //     const detailsInfo = document.createElement('div');
+  //     const id = document.createElement('span');
+  //     const namePokemon = document.createElement('span');
+  //     const typesPokemon = document.createElement('div');
+
+  //     if(types.length > 1) {
+  //       const type1 = document.createElement('span');
+  //       const type2 = document.createElement('span');
+
+  //       type1.classList.add('type', types[0]) 
+  //       type2.classList.add('type', types[1])
+        
+  //       type1.textContent = types[0]
+  //       type2.textContent = types[1];
+        
+  //       typesPokemon.append(type1, type2)
+  //     } else {
+  //       const type = document.createElement('span');
+  //       type.classList.add('type', types[0]) 
+
+  //       type.textContent = types[0]
+
+  //       typesPokemon.append(type)
+  //     }
+
+  //     li.classList.add('card', 'cursor-pointer');
+  //     containerImg.classList.add('card__image', type);
+  //     img.src = image;
+  //     img.setAttribute('alt', name)
+  //     details.classList.add('card__details');
+  //     detailsInfo.classList.add('card__info');
+  //     id.classList.add('card__number');
+  //     id.textContent = `n.º ${leftFillNum(number, 3)}`;
+  //     namePokemon.classList.add('card__name');
+  //     namePokemon.textContent = name;
+  //     typesPokemon.classList.add('card__types');
+      
+  //     detailsInfo.append(id, namePokemon)
+  //     containerImg.append(img);
+  //     details.append(detailsInfo, typesPokemon)
+  //     li.append(containerImg, details)
+
+  //     fragment.append(li);
+  //   })
+
+  //   ul.append(fragment)
+  // };
 
 
   const handlePageLoaded = async () => {
