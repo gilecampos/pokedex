@@ -89,7 +89,7 @@
         types.forEach(type => {
           const typeImage = createHTMLElement('img')
           const typeSpan = createHTMLElement('span', ['type', type]);
-          typeImage.src = `img/${type}.svg`
+          typeImage.src = `/icons-type/${type}.svg`
           typeSpan.textContent = type;
           typeSpan.appendChild(typeImage);
           typesPokemon.appendChild(typeSpan);
@@ -97,13 +97,13 @@
       } else {
         const type = createHTMLElement('span', ['type', types[0]]);
         const imageType = createHTMLElement('img');
-        imageType.src = `/img/${types[0]}.svg`
+        imageType.src = `/icons-type/${types[0]}.svg`
         type.textContent = types[0];
         type.appendChild(imageType);
         typesPokemon.appendChild(type);
       }
 
-      imgType.src = `/img/${type}.svg`;
+      imgType.src = `/icons-type/${type}.svg`;
       imgType.setAttribute('alt', type);
   
       img.src = image;
