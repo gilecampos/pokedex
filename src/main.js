@@ -97,13 +97,13 @@
       } else {
         const type = createHTMLElement('span', ['type', types[0]]);
         const imageType = createHTMLElement('img');
-        imageType.src = `img/${types[0]}.svg`
+        imageType.src = `/pokedex/dist/img/${types[0]}.svg`
         type.textContent = types[0];
         type.appendChild(imageType);
         typesPokemon.appendChild(type);
       }
 
-      imgType.src = `icons-type/${type}.svg`;
+      imgType.src = `/pokedex/dist/img/${type}.svg`;
       imgType.setAttribute('alt', type);
   
       img.src = image;
