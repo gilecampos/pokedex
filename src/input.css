@@ -124,6 +124,26 @@
   position: relative;
 }
 
+
+.effect__image {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.card__image .effect__image img {
+  opacity: 0.2;
+  width: 80%;
+  max-height: unset;
+  max-width: unset;
+}
+
 .card__image img {
   max-height: 300px;
   max-width: 200px;

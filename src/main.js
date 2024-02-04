@@ -64,6 +64,10 @@
     element.classList.add(...classNames);
     return element;
   };
+
+  // <div class="effect__image">
+  //           <img src="icons-type/${pokemon.type}.svg" alt="${pokemon.type}">
+  //         </div>
   
   const renderPokemons = pokemons => {
     const ul = document.querySelector("[data-js='pokemon-list']");
@@ -72,6 +76,8 @@
     pokemons.forEach(({ number, name, image, types, type }) => {
       const li = createHTMLElement('li', ['card', 'cursor-pointer']);
       const containerImg = createHTMLElement('div', ['card__image', type]);
+      const containerImgEffect = createHTMLElement('div', ['effect__image']);
+      const imgType = createHTMLElement('img');
       const img = createHTMLElement('img');
       const details = createHTMLElement('div', ['card__details']);
       const detailsInfo = createHTMLElement('div', ['card__info']);
@@ -81,23 +87,34 @@
   
       if (types.length > 1) {
         types.forEach(type => {
+          const typeImage = createHTMLElement('img')
           const typeSpan = createHTMLElement('span', ['type', type]);
+          typeImage.src = `img/${type}.svg`
           typeSpan.textContent = type;
+          typeSpan.appendChild(typeImage);
           typesPokemon.appendChild(typeSpan);
         });
       } else {
         const type = createHTMLElement('span', ['type', types[0]]);
+        const imageType = createHTMLElement('img');
+        imageType.src = `img/${types[0]}.svg`
         type.textContent = types[0];
+        type.appendChild(imageType);
         typesPokemon.appendChild(type);
       }
+
+      imgType.src = `icons-type/${type}.svg`;
+      imgType.setAttribute('alt', type);
   
       img.src = image;
       img.setAttribute('alt', name);
       id.textContent = `n.º ${leftFillNum(number, 3)}`;
       namePokemon.textContent = name;
-  
+      
+      containerImgEffect.append(imgType);
       detailsInfo.append(id, namePokemon);
       containerImg.appendChild(img);
+      containerImg.appendChild(containerImgEffect);
       details.append(detailsInfo, typesPokemon);
       li.append(containerImg, details);
   
