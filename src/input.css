@@ -4,6 +4,10 @@
 
 @import url("tailwindcss/utilities");
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* HEADER */
 .header__logo {
   max-width: 160px;
@@ -362,4 +366,8 @@
   .menu__link.active {
     border-color: #312E81;
   }
+}
+
+.scroll-top {
+  display: none;
 }

@@ -5,6 +5,7 @@
   const clearFilterButton = document.querySelector("#clearFilter");
   const filterTypeButton = document.querySelector("#filterTypeButton");
   const btnMorePokemons = document.querySelector(".more-pokemons");
+  const btnScrollTop = document.querySelector(".scroll-top");
 
   
   const pokemonList = document.querySelector("[ data-js='pokemon-list']");
@@ -116,13 +117,29 @@
     renderPokemons(pokemons);
   }
   
-  btnMorePokemons.addEventListener("click", renderMorePokemons)
   
-  const handlePageLoaded = async () => {
-   const pokemons = await getPokemons();
-   renderPokemons(pokemons);
+  const displayButtonScrollTop = () => {
+    let bodyTop = document.querySelector("body").getBoundingClientRect();
+    if(bodyTop.top < -30) {
+      btnScrollTop.style.display = "block";
+    } else {
+      btnScrollTop.style.display = "none";
+    }
   }
 
+  const scrollTop = () => {
+    window.scrollTo(0, 0)
+  }
+  
+  
+  const handlePageLoaded = async () => {
+    const pokemons = await getPokemons()
+    renderPokemons(pokemons)
+  }
+  
+  window.addEventListener("scroll", displayButtonScrollTop)
+  btnMorePokemons.addEventListener("click", renderMorePokemons)
+  btnScrollTop.addEventListener("click", scrollTop)
   handlePageLoaded()
 
   // const getPokemons = async () => await
