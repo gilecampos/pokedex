@@ -17,7 +17,6 @@
   
   const limit = 20;
   let offset = 0;
-  let arrTypes = [];
 
   class Pokemon {
     constructor(detail) {
@@ -93,6 +92,9 @@
         type.textContent = types[0];
         typesPokemon.appendChild(type);
       }
+
+      li.setAttribute("data-aos", "fade-up");
+      li.setAttribute("data-aos-anchor-placement", "top-bottom");
   
       img.src = image;
       img.setAttribute('alt', name);
