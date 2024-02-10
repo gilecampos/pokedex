@@ -23,9 +23,9 @@ The Pokedex Project is a simple web application for exploring information about 
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/gilecampos/pokedex.git
-   cd pokedex
+  ```bash
+  git clone https://github.com/gilecampos/pokedex.git
+  cd pokedex
 
 2. Install dependencies:
 
@@ -34,5 +34,7 @@ The Pokedex Project is a simple web application for exploring information about 
 
 3. Start the development server:
 
-  ```npm run dev
+  ```bash
+  npm run dev
+  
   Access http://localhost:3000 in your browser.
