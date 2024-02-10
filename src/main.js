@@ -4,6 +4,7 @@
   const inputSearchByType = document.querySelectorAll("input[type='checkbox']");
   const clearFilterButton = document.querySelector("#clearFilter");
   const filterTypeButton = document.querySelector("#filterTypeButton");
+  const btnMorePokemons = document.querySelector(".more-pokemons");
 
   
   const pokemonList = document.querySelector("[ data-js='pokemon-list']");
@@ -44,7 +45,7 @@
 
   const getPokemons = async () => {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=15&offset=0`)
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
 
       if(!response.ok) {
         throw new Error('Não foi possivel obter as informçaões');
@@ -65,9 +66,6 @@
     return element;
   };
 
-  // <div class="effect__image">
-  //           <img src="icons-type/${pokemon.type}.svg" alt="${pokemon.type}">
-  //         </div>
   
   const renderPokemons = pokemons => {
     const ul = document.querySelector("[data-js='pokemon-list']");
@@ -111,74 +109,21 @@
   
     ul.appendChild(fragment);
   };
+
+  const renderMorePokemons = async () => {
+    offset += 20;
+    const pokemons = await getPokemons();
+    renderPokemons(pokemons);
+  }
   
+  btnMorePokemons.addEventListener("click", renderMorePokemons)
   
-
-  // const renderPokemons = pokemons => {
-  //   const ul = document.querySelector("[ data-js='pokemon-list']");
-  //   let fragment = new DocumentFragment();
-
-  //   pokemons.forEach(({number, name, image, types, type}) => {
-  //     const li = document.createElement('li');
-  //     const containerImg = document.createElement('div');
-  //     const img = document.createElement('img');
-  //     const details = document.createElement('div');
-  //     const detailsInfo = document.createElement('div');
-  //     const id = document.createElement('span');
-  //     const namePokemon = document.createElement('span');
-  //     const typesPokemon = document.createElement('div');
-
-  //     if(types.length > 1) {
-  //       const type1 = document.createElement('span');
-  //       const type2 = document.createElement('span');
-
-  //       type1.classList.add('type', types[0]) 
-  //       type2.classList.add('type', types[1])
-        
-  //       type1.textContent = types[0]
-  //       type2.textContent = types[1];
-        
-  //       typesPokemon.append(type1, type2)
-  //     } else {
-  //       const type = document.createElement('span');
-  //       type.classList.add('type', types[0]) 
-
-  //       type.textContent = types[0]
-
-  //       typesPokemon.append(type)
-  //     }
-
-  //     li.classList.add('card', 'cursor-pointer');
-  //     containerImg.classList.add('card__image', type);
-  //     img.src = image;
-  //     img.setAttribute('alt', name)
-  //     details.classList.add('card__details');
-  //     detailsInfo.classList.add('card__info');
-  //     id.classList.add('card__number');
-  //     id.textContent = `n.º ${leftFillNum(number, 3)}`;
-  //     namePokemon.classList.add('card__name');
-  //     namePokemon.textContent = name;
-  //     typesPokemon.classList.add('card__types');
-      
-  //     detailsInfo.append(id, namePokemon)
-  //     containerImg.append(img);
-  //     details.append(detailsInfo, typesPokemon)
-  //     li.append(containerImg, details)
-
-  //     fragment.append(li);
-  //   })
-
-  //   ul.append(fragment)
-  // };
-
-
   const handlePageLoaded = async () => {
    const pokemons = await getPokemons();
    renderPokemons(pokemons);
   }
 
   handlePageLoaded()
-
 
   // const getPokemons = async () => await
   //   fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`)
