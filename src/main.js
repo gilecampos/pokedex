@@ -121,15 +121,15 @@
   
   
   const displayButtonScrollTop = () => {
-    let bodyTop = document.querySelector("body").getBoundingClientRect();
-    if(bodyTop.top < -30) {
+    let bodyProperties = document.querySelector("body").getBoundingClientRect();
+    if(bodyProperties.top < -30) {
       btnScrollTop.style.display = "block";
     } else {
       btnScrollTop.style.display = "none";
     }
   }
 
-  const scrollTop = () => {
+  const scrollToTopDocument = () => {
     window.scrollTo(0, 0)
   }
   
@@ -141,7 +141,7 @@
   
   window.addEventListener("scroll", displayButtonScrollTop)
   btnMorePokemons.addEventListener("click", renderMorePokemons)
-  btnScrollTop.addEventListener("click", scrollTop)
+  btnScrollTop.addEventListener("click", scrollToTopDocument)
   handlePageLoaded()
 
   // const getPokemons = async () => await
