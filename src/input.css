@@ -157,6 +157,7 @@
   background-color: #E0E7FF;
   border-radius: 8px;
   padding: 8px;
+  text-align: start;
 }
 
 .card__info {
