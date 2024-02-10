@@ -15,8 +15,17 @@
     e.currentTarget.classList.toggle("active")
   })
   
-  const limit = 20;
-  let offset = 0;
+  const paginationInfo = (() => {
+    const limit = 20;
+    let offset = 0;
+
+    const getLimit = () => limit
+    const getOffset = () => offset
+    const incrementOffset = () => offset += limit
+
+    return {getLimit, getOffset, incrementOffset}
+  })()
+
 
   class Pokemon {
     constructor(detail) {
@@ -45,7 +54,8 @@
 
   const getPokemons = async () => {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
+      const {getLimit, getOffset, incrementOffset} = paginationInfo
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${getLimit()}&offset=${getOffset()}`)
 
       if(!response.ok) {
         throw new Error('Não foi possivel obter as informçaões');
@@ -53,7 +63,8 @@
 
       const { results: apiResults } = await response.json();
       const pokemons = await getPokemonsInfo(apiResults);
-      
+
+      incrementOffset()
       return pokemons;
     } catch (error) {
       console.log('algo deu errado', error);
@@ -69,7 +80,7 @@
   
   const renderPokemons = pokemons => {
     const ul = document.querySelector("[data-js='pokemon-list']");
-    const fragment = new DocumentFragment();
+    const fragment = document.createDocumentFragment();
   
     pokemons.forEach(({ number, name, image, types, type }) => {
       const li = createHTMLElement('li', ['card', 'cursor-pointer']);
@@ -113,12 +124,6 @@
     ul.appendChild(fragment);
   };
 
-  const renderMorePokemons = async () => {
-    offset += 20;
-    const pokemons = await getPokemons();
-    renderPokemons(pokemons);
-  }
-  
   
   const displayButtonScrollTop = () => {
     let bodyProperties = document.querySelector("body").getBoundingClientRect();
@@ -132,15 +137,34 @@
   const scrollToTopDocument = () => {
     window.scrollTo(0, 0)
   }
+
+  const observeLastPokemon = pokemonsObserver => {
+    const lastPokemon = pokemonList.lastChild;
+    pokemonsObserver.observe(lastPokemon)
+  }
+
+  const handleNextPokemonsRender = () => {
+    const pokemonsObserver = new IntersectionObserver(async ([lastPokemon], observer) => {
+      if(!lastPokemon.isIntersecting) {
+        return
+      }
+      observer.unobserve(lastPokemon.target);
+      const pokemons = await getPokemons()
+      renderPokemons(pokemons)
+      observeLastPokemon(pokemonsObserver)
+    }, {rootMargin: '500px'});
+    
+    observeLastPokemon(pokemonsObserver)
+  }
   
   
   const handlePageLoaded = async () => {
     const pokemons = await getPokemons()
     renderPokemons(pokemons)
+    handleNextPokemonsRender();
   }
   
   window.addEventListener("scroll", displayButtonScrollTop)
-  btnMorePokemons.addEventListener("click", renderMorePokemons)
   btnScrollTop.addEventListener("click", scrollToTopDocument)
   handlePageLoaded()
 
