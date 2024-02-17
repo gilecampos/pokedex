@@ -27,23 +27,6 @@
 
         </div>
 
-        <ul class="menu__items text-white text-lg lg:text-xl">
-          <li class="menu__item">
-            <a href="#" class="menu__link active p-3">Pokemons</a>
-          </li>
-          <li class="menu__item">
-            <a href="#" class="menu__link p-3">Favorites</a>
-          </li>
-          <li class="menu__item">
-            <a href="#" class="menu__link p-3">Catch Pokemon</a>
-          </li>
-          <li class="menu__item">
-            <a href="#" class="menu__link p-3">Pokemons captured</a>
-          </li>
-          <li class="menu__item">
-            <a href="#" class="menu__link p-3">Memory game</a>
-          </li>
-        </ul>
       </nav>
     </div>
   </header>
@@ -52,27 +35,6 @@
   <main class="bg-white text-center pb-4">
     <section class="filter container mx-auto px-2 md:px-0 mt-6 md:text-center">
       <h1 class="text-3xl font-bold text-indigo-900 mb-1">Pokédex</h1>
-      <p class="text-base text-indigo-900 inline-block w-80">Search for a pokemon by name or using its National Pokédex number.</p>
-      <div class="filters flex items-center justify-between md:justify-center gap-1 mt-4">
-        <div class="filter__search w-full md:w-80">
-          <input 
-            type="search" 
-            name="search" 
-            id="search" 
-            class="
-              bg-indigo-100 rounded-md py-2 ps-11 pe-2 focus:outline-indigo-900 text-indigo-900
-              text-lg w-full
-            " 
-            placeholder="Name or number"
-            data-js="search-pokemon"
-          >
-          <i class="bi bi-search"></i>
-        </div>
-
-        <div class="filter__advanced">
-          <i class="bi bi-filter-square-fill text-4xl text-indigo-900 cursor-pointer" data-js="modal-types"></i>
-        </div>
-      </div>
     </section>
 
     <section class="pokedex container mx-auto my-5 px-2 md:px-0">
@@ -86,92 +48,6 @@
     </button>
   </main>
 
-  <div id="fade" class="hide"></div>
-  <div id="modal" class="hide">
-    <div class="modal-header">
-      <h2>Escolha o tipo que deseja filtrar</h2>
-      <button id="close-modal"><i class="bi bi-x-circle"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="flex flex-col gap-2">
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="normal"> Normal
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="fire"> Fire
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="water"> Water
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="electric"> Electric
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="grass"> Grass
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="ice"> Ice
-        </label>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="fighting"> Fighting
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="poison"> Poison
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="ground"> Ground  
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="flying"> Flying
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="psychic"> Psychic
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="bug"> Bug
-        </label>
-      </div>
-      <div class="flex flex-col gap-2">
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="rock"> Rock
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="ghost"> Ghost
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="dragon"> Dragon
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="dark"> Dark
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="steel"> Steel
-        </label>
-        <label>
-          <input type="checkbox" class="accent-indigo-900" data-js="fairy"> Fairy
-        </label>
-      </div>
-    </div>
-
-    <div class="modal-actions text-center">
-      <button 
-        type="button"
-        class="bg-indigo-900 text-white border-0 px-8 py-2 rounded mt-6"
-        id="filterTypeButton"
-      >
-        Filtrar
-      </button>
-      <button 
-        type="button"
-        class="bg-indigo-900 text-white border-0 px-8 py-2 rounded mt-6"
-        id="clearFilter"
-      >
-       Limpar
-      </button>
-    </div>
-  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.1/purify.min.js" integrity="sha512-TU4FJi5o+epsahLtM9OFRvH2gXmmlzGlysk9wtTFgbYbMvFzh3Cw1l3ubnYIvBiZCC/aurRHS408TeEbcuOoyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
